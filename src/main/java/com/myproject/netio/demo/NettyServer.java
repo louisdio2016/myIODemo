@@ -35,7 +35,7 @@ public class NettyServer {
 //                                System.out.println(msg);
 //                            }
 //                        });
-                        ch.pipeline().addLast(new FirstServerHandler());//逻辑处理器
+                        ch.pipeline().addLast(new FirstServerHandler());//向逻辑处理链中添加逻辑处理器
                     }
                 });
 //                .bind(8000);//绑定8000端口
