@@ -29,7 +29,7 @@ public class NettyClient {
                     @Override
                     protected void initChannel(Channel ch) {
 //                        ch.pipeline().addLast(new StringEncoder());
-                        ch.pipeline().addLast(new FirstClientHandler());
+                        ch.pipeline().addLast(new FirstClientHandler());//逻辑处理器
                     }
                 });
 
