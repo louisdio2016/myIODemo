@@ -22,8 +22,8 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
 
         // 回复数据到客户端
         System.out.println(new Date() + ": 服务端写出数据");
-        ByteBuf out = getByteBuf(ctx);
-        ctx.channel().writeAndFlush(out);//向客户端写数据
+//        ByteBuf out = getByteBuf(ctx);
+//        ctx.channel().writeAndFlush(out);//向客户端写数据
     }
 
     private ByteBuf getByteBuf(ChannelHandlerContext ctx) {
@@ -34,5 +34,16 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
         buffer.writeBytes(bytes);
 
         return buffer;
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) {
+        System.out.println(new Date() + ": 服务端写出数据");
+
+        // 1. 获取数据
+        ByteBuf buffer = getByteBuf(ctx);
+
+        // 2. 写数据到服务器端
+        ctx.channel().writeAndFlush(buffer);
     }
 }

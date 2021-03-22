@@ -13,16 +13,16 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
      * 链接成功后调用：向服务端写数据
      * @param ctx
      */
-    @Override
-    public void channelActive(ChannelHandlerContext ctx) {
-        System.out.println(new Date() + ": 客户端写出数据");
-
-        // 1. 获取数据
-        ByteBuf buffer = getByteBuf(ctx);
-
-        // 2. 写数据到服务器端
-        ctx.channel().writeAndFlush(buffer);
-    }
+//    @Override
+//    public void channelActive(ChannelHandlerContext ctx) {
+//        System.out.println(new Date() + ": 客户端写出数据");
+//
+//        // 1. 获取数据
+//        ByteBuf buffer = getByteBuf(ctx);
+//
+//        // 2. 写数据到服务器端
+//        ctx.channel().writeAndFlush(buffer);
+//    }
 
     private ByteBuf getByteBuf(ChannelHandlerContext ctx) {
         // 1. 获取二进制抽象 ByteBuf
