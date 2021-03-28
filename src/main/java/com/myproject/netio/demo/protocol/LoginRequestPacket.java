@@ -4,7 +4,7 @@ import static com.myproject.netio.demo.protocol.Command.LOGIN_REQUEST;
 
 public class LoginRequestPacket extends Packet {
 
-    private Integer userId;
+    private String userId;
 
     private String username;
 
@@ -15,11 +15,11 @@ public class LoginRequestPacket extends Packet {
         return LOGIN_REQUEST;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
