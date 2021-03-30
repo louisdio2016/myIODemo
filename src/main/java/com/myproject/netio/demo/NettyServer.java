@@ -1,5 +1,6 @@
 package com.myproject.netio.demo;
 
+import com.myproject.netio.demo.handler.ServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
@@ -35,7 +36,7 @@ public class NettyServer {
 //                                System.out.println(msg);
 //                            }
 //                        });
-                        ch.pipeline().addLast(new FirstServerHandler());//向逻辑处理链中添加逻辑处理器
+                        ch.pipeline().addLast(new ServerHandler());//向逻辑处理链中添加逻辑处理器
                     }
                 });
 //                .bind(8000);//绑定8000端口

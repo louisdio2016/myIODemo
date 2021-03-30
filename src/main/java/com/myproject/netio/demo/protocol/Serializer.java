@@ -1,5 +1,8 @@
 package com.myproject.netio.demo.protocol;
 
+/**
+ * 用于将java对象转换成二进制数据
+ */
 public interface Serializer {
 
     /**
@@ -12,7 +15,7 @@ public interface Serializer {
     /**
      * 序列化算法
      */
-    byte getSerializerAlgorithm();
+    byte getSerializerAlogrithm();
 
     /**
      * java 对象转换成二进制
