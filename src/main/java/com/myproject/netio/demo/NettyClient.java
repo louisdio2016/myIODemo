@@ -1,6 +1,10 @@
 package com.myproject.netio.demo;
 
+import com.myproject.netio.demo.codec.PacketDecoder;
+import com.myproject.netio.demo.codec.PacketEncoder;
 import com.myproject.netio.demo.handler.ClientHandler;
+import com.myproject.netio.demo.handler.LoginResponseHandler;
+import com.myproject.netio.demo.handler.MessageResponseHandler;
 import com.myproject.netio.demo.protocol.MessageRequestPacket;
 import com.myproject.netio.demo.protocol.PacketCodeC;
 import com.myproject.netio.demo.utils.LoginUtil;
@@ -36,7 +40,11 @@ public class NettyClient {
                     @Override
                     protected void initChannel(Channel ch) {
 //                        ch.pipeline().addLast(new StringEncoder());
-                        ch.pipeline().addLast(new ClientHandler());//向逻辑处理链中添加逻辑处理器
+//                        ch.pipeline().addLast(new ClientHandler());//向逻辑处理链中添加逻辑处理器
+                        ch.pipeline().addLast(new PacketDecoder());//解析二进制文件
+                        ch.pipeline().addLast(new LoginResponseHandler());//1.连接成功后发送登录请求;2.获取服务端发送的登录响应
+                        ch.pipeline().addLast(new MessageResponseHandler());//1.连接成功后发送登录请求;2.获取服务端发送的登录响应
+                        ch.pipeline().addLast(new PacketEncoder());//1.连接成功后发送登录请求;2.获取服务端发送的登录响应
                     }
                 });
 
@@ -83,8 +91,8 @@ public class NettyClient {
 
                     MessageRequestPacket packet = new MessageRequestPacket();
                     packet.setMessage(line);
-                    ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(channel.alloc(), packet);
-                    channel.writeAndFlush(byteBuf);
+//                    ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(channel.alloc(), packet);
+                    channel.writeAndFlush(packet);//自动进行二进制编码
                 }
             }
         }).start();

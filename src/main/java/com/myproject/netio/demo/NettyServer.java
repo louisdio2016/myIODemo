@@ -1,5 +1,9 @@
 package com.myproject.netio.demo;
 
+import com.myproject.netio.demo.codec.PacketDecoder;
+import com.myproject.netio.demo.codec.PacketEncoder;
+import com.myproject.netio.demo.handler.LoginRequestHandler;
+import com.myproject.netio.demo.handler.MessageRequestHandler;
 import com.myproject.netio.demo.handler.ServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelHandlerContext;
@@ -29,14 +33,10 @@ public class NettyServer {
                 .childOption(ChannelOption.TCP_NODELAY, true)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel ch) {//指定每条数据的读写逻辑
-//                        ch.pipeline().addLast(new StringDecoder());
-//                        ch.pipeline().addLast(new SimpleChannelInboundHandler<String>() {
-//                            @Override
-//                            protected void channelRead0(ChannelHandlerContext ctx, String msg) {
-//                                System.out.println(msg);
-//                            }
-//                        });
-                        ch.pipeline().addLast(new ServerHandler());//向逻辑处理链中添加逻辑处理器
+                        ch.pipeline().addLast(new PacketDecoder());//解析二进制文件
+                        ch.pipeline().addLast(new LoginRequestHandler());//1.接收客户端发送的登录数据，返回登录响应
+                        ch.pipeline().addLast(new MessageRequestHandler());//1.接收客户端发送的登录数据，返回登录响应
+                        ch.pipeline().addLast(new PacketEncoder());//1.接收客户端发送的登录数据，返回登录响应
                     }
                 });
 //                .bind(8000);//绑定8000端口

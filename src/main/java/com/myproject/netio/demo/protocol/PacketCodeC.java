@@ -33,9 +33,9 @@ public class PacketCodeC {
      * @param packet
      * @return
      */
-    public ByteBuf encode(ByteBufAllocator byteBufAllocator, Packet packet) {
+    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
         // 1. 创建 ByteBuf 对象
-        ByteBuf byteBuf = byteBufAllocator.DEFAULT.ioBuffer();//用分配器获取ByteBuf，ByteBuf为直接内存，不受jvm控制，即不会被垃圾回收
+//        ByteBuf byteBuf = byteBufAllocator.DEFAULT.ioBuffer();//用分配器获取ByteBuf，ByteBuf为直接内存，不受jvm控制，即不会被垃圾回收
         // 2. 序列化 Java 对象
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
