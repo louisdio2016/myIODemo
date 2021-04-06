@@ -1,9 +1,7 @@
 package com.myproject.netio.demo.handler;
 
-import com.myproject.netio.demo.protocol.LoginRequestPacket;
-import com.myproject.netio.demo.protocol.LoginResponsePacket;
-import com.myproject.netio.demo.protocol.Packet;
-import com.myproject.netio.demo.protocol.PacketCodeC;
+import com.myproject.netio.demo.protocol.*;
+import com.myproject.netio.demo.utils.LoginUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -55,10 +53,14 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         if (packet instanceof LoginResponsePacket) {
             LoginResponsePacket loginResponsePacket = (LoginResponsePacket) packet;
             if (loginResponsePacket.isSuccess()) {
+                LoginUtil.markAsLogin(ctx.channel());//登录成功放入成功标记
                 System.out.println(new Date() + ": 客户端登录成功");
             } else {
                 System.out.println(new Date() + ": 客户端登录失败，原因：" + loginResponsePacket.getReason());
             }
+        }else if(packet instanceof MessageResponsePacket){
+            MessageResponsePacket messageResponsePacket = (MessageResponsePacket) packet;
+            System.out.println(new Date() + ": 收到服务端的消息: " + messageResponsePacket.getMessage());
         }
     }
 }
