@@ -5,6 +5,7 @@ import com.myproject.netio.demo.codec.PacketEncoder;
 import com.myproject.netio.demo.handler.LoginRequestHandler;
 import com.myproject.netio.demo.handler.MessageRequestHandler;
 import com.myproject.netio.demo.handler.ServerHandler;
+import com.myproject.netio.demo.protocol.Spliter;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
@@ -13,6 +14,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -32,7 +34,9 @@ public class NettyServer {
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .childOption(ChannelOption.TCP_NODELAY, true)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
-                    protected void initChannel(NioSocketChannel ch) {//指定每条数据的读写逻辑
+                    protected void initChannel(NioSocketChannel ch) {//需要实现的抽象方法
+//                        ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));//长度域拆包器
+                        ch.pipeline().addLast(new Spliter());//自定义拆包器，继承长度域拆包器，增加了对其他协议的过滤
                         ch.pipeline().addLast(new PacketDecoder());//解析二进制文件
                         ch.pipeline().addLast(new LoginRequestHandler());//1.接收客户端发送的登录数据，返回登录响应
                         ch.pipeline().addLast(new MessageRequestHandler());//1.接收客户端发送的登录数据，返回登录响应

@@ -7,6 +7,7 @@ import com.myproject.netio.demo.handler.LoginResponseHandler;
 import com.myproject.netio.demo.handler.MessageResponseHandler;
 import com.myproject.netio.demo.protocol.MessageRequestPacket;
 import com.myproject.netio.demo.protocol.PacketCodeC;
+import com.myproject.netio.demo.protocol.Spliter;
 import com.myproject.netio.demo.utils.LoginUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
@@ -16,6 +17,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 
 import java.util.Date;
@@ -41,6 +43,8 @@ public class NettyClient {
                     protected void initChannel(Channel ch) {
 //                        ch.pipeline().addLast(new StringEncoder());
 //                        ch.pipeline().addLast(new ClientHandler());//向逻辑处理链中添加逻辑处理器
+//                        ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));//长度域拆包器
+                        ch.pipeline().addLast(new Spliter());//自定义拆包器，继承长度域拆包器，增加了对其他协议的过滤
                         ch.pipeline().addLast(new PacketDecoder());//解析二进制文件
                         ch.pipeline().addLast(new LoginResponseHandler());//1.连接成功后发送登录请求;2.获取服务端发送的登录响应
                         ch.pipeline().addLast(new MessageResponseHandler());//1.连接成功后发送登录请求;2.获取服务端发送的登录响应

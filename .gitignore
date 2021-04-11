@@ -49,3 +49,5 @@ buildNumber.properties
 src/main/resources/
 src/test/
 .idea/
+.idea/*.xml
+.idea/libraries/
