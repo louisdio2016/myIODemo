@@ -18,4 +18,11 @@ public class MessageRequestPacket extends Packet {
     public Byte getCommand() {
         return MESSAGE_REQUEST;
     }
+
+    @Override
+    public String toString() {
+        return "MessageRequestPacket{" +
+                "message='" + message + '\'' +
+                '}';
+    }
 }

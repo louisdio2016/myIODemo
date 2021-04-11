@@ -18,4 +18,11 @@ public class MessageResponsePacket extends Packet {
     public Byte getCommand() {
         return MESSAGE_RESPONSE;
     }
+
+    @Override
+    public String toString() {
+        return "MessageResponsePacket{" +
+                "message='" + message + '\'' +
+                '}';
+    }
 }

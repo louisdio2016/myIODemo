@@ -76,9 +76,11 @@ public class PacketCodeC {
 
         Class<? extends Packet> requestType = getRequestType(command);
         Serializer serializer = getSerializer(serializeAlgorithm);
-
+        Packet packet = null;
         if (requestType != null && serializer != null) {
-            return serializer.deserialize(requestType, bytes);
+            packet = serializer.deserialize(requestType, bytes);
+            System.out.println("PacketCodeC.decode    packet:"+packet.toString());
+            return packet;
         }
 
         return null;
